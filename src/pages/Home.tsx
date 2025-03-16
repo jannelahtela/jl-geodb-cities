@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchCities } from "../services/api";
 import { City } from '../types'
 import { Container, Typography, CircularProgress, TextField, Box } from "@mui/material";
@@ -14,32 +14,30 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchCitiesDebounced = useCallback(
-    debounce(async (searchQuery: string) => {
-      if (searchQuery.length < 2) {
-        setCities([]);
-        setLoading(false);
-        return;
-      }
-  
-      setLoading(true);
-      setError(null);
-      
-      const cityData = await fetchCities(searchQuery, 5);
-      
-      if (cityData.length === 0) {
-        setError("No cities found.");
-      }
-  
-      setCities(cityData);
+  const debouncedFetchCities = debounce(async (searchQuery: string, setCities, setLoading, setError) => {
+    if (searchQuery.length < 2) {
+      setCities([]);
       setLoading(false);
-    }, 500),
-    [setCities, setLoading, setError]
-  );
-
+      return;
+    }
+  
+    setLoading(true);
+    setError(null);
+    
+    const cityData = await fetchCities(searchQuery, 5);
+    
+    if (cityData.length === 0) {
+      setError("No cities found.");
+    }
+  
+    setCities(cityData);
+    setLoading(false);
+  }, 500);
+  
   useEffect(() => {
-    fetchCitiesDebounced(query);
-  }, [query, fetchCitiesDebounced]);
+    debouncedFetchCities(query, setCities, setLoading, setError);
+  }, [query, debouncedFetchCities]);
+
 
   return (
     <Container sx={{ mt: 4, textAlign: "center" }}>
