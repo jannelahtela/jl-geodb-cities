@@ -33,7 +33,7 @@ const Home: React.FC = () => {
   
       setCities(cityData);
       setLoading(false);
-    }, 500), 
+    }, 500),
     [setCities, setLoading, setError]
   );
 
