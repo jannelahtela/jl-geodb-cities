@@ -1,46 +1,48 @@
-# Getting Started with Create React App
+# JL GeoDB Cities App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React + TypeScript application that allows users to search for cities using the **GeoDB Cities API** and view city details in a **table format**. Clicking on a city name opens a **dialog with additional details**, including **population, region, coordinates, and a link to WikiData**.
 
-## Available Scripts
+## Features
+✅ **Search Cities** – Users can search for cities dynamically.  
+✅ **Debounced API Calls** – Prevents hitting the rate limit with optimized requests.  
+✅ **City List in Table Format** – Displays structured city data in a table using Material-UI.  
+✅ **City Details Dialog** – Clicking a city opens a modal with more information.  
+✅ **Material-UI Integration** – Uses `@mui/material` for modern UI components.  
+✅ **Error Handling & Loading Indicators** – Displays errors and a spinner while fetching data.  
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## **Tech Stack**
+- **Frontend:** React + TypeScript
+- **Styling:** Material-UI (`@mui/material`)
+- **State Management:** React Hooks
+- **API Handling:** Axios (`axios`)
+- **Debouncing:** Lodash (`lodash`)
+- **Routing:** React Router (`react-router-dom`)
+- **Deployment:** Vercel or Netlify
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## **Installation Guide**
+### Clone the Repository
+```sh
+git clone https://github.com/yourusername/geodb-cities-app.git
+cd jl-geodb-cities-app
+```
 
-### `npm test`
+### Install Dependencies
+```sh
+npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Step 1: Create an `.env.local` File
+```sh
+REACT_APP_GEODB_API_KEY=your_rapidapi_key_here
+```
 
-### `npm run build`
+### Step 2: Restart the Development Server
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
