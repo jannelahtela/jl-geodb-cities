@@ -1,10 +1,9 @@
 import axios from "axios";
-console.log("API Key:", process.env); // Debugging
 /**
  * Load the API key, prioritizing `.env.local` over `.env`
  */
 const API_KEY = process.env.REACT_APP_GEODB_API_KEY || "Api key missing";
-console.log("Loaded API Key:", API_KEY); // Debugging
+console.log("Loaded API Key:", API_KEY, process.env); // Debugging
 
 /**
  * Base URL for GeoDB Cities API

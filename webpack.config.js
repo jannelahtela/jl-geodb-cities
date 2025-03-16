@@ -23,7 +23,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.GEODB_API_KEY": JSON.stringify(dotenv.parsed.REACT_APP_GEODB_API_KEY || ""),
+      "process.env.REACT_APP_GEODB_API_KEY": JSON.stringify(dotenv.parsed.REACT_APP_GEODB_API_KEY || ""),
     }),
   ],
   devServer: {
