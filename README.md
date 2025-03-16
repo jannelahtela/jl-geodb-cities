@@ -40,7 +40,7 @@ npm install
 REACT_APP_GEODB_API_KEY=your_rapidapi_key_here
 ```
 
-### Step 2: Restart the Development Server
+### Step 2: Start the Development Server
 
 ```sh
 npm start
