@@ -26,8 +26,8 @@ A React + TypeScript application that allows users to search for cities using th
 ## **Installation Guide**
 ### Clone the Repository
 ```sh
-git clone https://github.com/yourusername/geodb-cities-app.git
-cd jl-geodb-cities-app
+git clone git@github.com:jannelahtela/jl-geodb-cities.git
+cd jl-geodb-cities
 ```
 
 ### Install Dependencies

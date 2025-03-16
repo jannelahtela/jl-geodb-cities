@@ -1,6 +1,7 @@
 import React from "react";
 import { ThemeProvider, CssBaseline, Container } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import theme from "./theme"; 
 import Home from "./pages/Home";
 import CityDetails from "./pages/CityDetails"; 
