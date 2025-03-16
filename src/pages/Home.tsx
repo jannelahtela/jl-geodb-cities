@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { fetchCities } from "../services/api";
-import { City } from '../types'
+import { City } from "../types";
 import { Container, Typography, CircularProgress, TextField, Box } from "@mui/material";
-import { debounce } from "lodash";
 import CityList from "../components/CityList";
+import { useDebounce } from "../hooks/useDebounce";
 
 /**
  * Home page with a search bar and a table-style city list.
@@ -14,30 +14,35 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const debouncedFetchCities = debounce(async (searchQuery: string, setCities, setLoading, setError) => {
-    if (searchQuery.length < 2) {
-      setCities([]);
-      setLoading(false);
-      return;
-    }
-  
+  const debouncedQuery = useDebounce(query, 1000);
+
+  const lastFetchedQuery = useRef<string | null>(null);
+
+  const fetchCitiesData = useCallback(async (searchQuery: string) => {
+    if (searchQuery.length < 2 || searchQuery === lastFetchedQuery.current) return;
+
     setLoading(true);
     setError(null);
-    
-    const cityData = await fetchCities(searchQuery, 5);
-    
-    if (cityData.length === 0) {
-      setError("No cities found.");
-    }
-  
-    setCities(cityData);
-    setLoading(false);
-  }, 500);
-  
-  useEffect(() => {
-    debouncedFetchCities(query, setCities, setLoading, setError);
-  }, [query, debouncedFetchCities]);
+    lastFetchedQuery.current = searchQuery;
 
+    try {
+      const cityData = await fetchCities(searchQuery, 5);
+      setCities(cityData);
+      if (cityData.length === 0) {
+        setError("No cities found.");
+      }
+    } catch (err) {
+      setError("Failed to fetch cities.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (debouncedQuery && debouncedQuery !== lastFetchedQuery.current) {
+      fetchCitiesData(debouncedQuery);
+    }
+  }, [debouncedQuery, fetchCitiesData]);
 
   return (
     <Container sx={{ mt: 4, textAlign: "center" }}>
@@ -46,7 +51,7 @@ const Home: React.FC = () => {
       </Typography>
 
       {/* Search Bar */}
-      <Box sx={{ mb: 3, display: "flex", justifyContent: "center" }}>
+      <Box sx={{ mb: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
         <TextField
           label="Enter city name..."
           variant="outlined"
@@ -54,16 +59,15 @@ const Home: React.FC = () => {
           onChange={(e) => setQuery(e.target.value)}
           sx={{ width: "100%", maxWidth: 400 }}
         />
+        <Typography variant="body2" sx={{ mt: 1, color: "gray" }}>
+          The API limits responses to 50 items, so I limited items to five just for fun.
+        </Typography>
       </Box>
 
       {/* Loading Indicator */}
-      {loading ? (
-        <CircularProgress />
-      ) : error ? (
-        <Typography color="error">{error}</Typography>
-      ) : (
-        <CityList cities={cities} />
-      )}
+      {loading && <CircularProgress />}
+      {!loading && error && <Typography color="error">{error}</Typography>}
+      {!loading && !error && <CityList cities={cities} />}
     </Container>
   );
 };

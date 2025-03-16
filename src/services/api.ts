@@ -48,7 +48,7 @@ export interface City {
  */
 export const fetchCities = async (
   query: string = "",
-  limit: number = 50,
+  limit: number = 5,
   country?: string
 ): Promise<City[]> => {
   try {
